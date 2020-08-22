@@ -18,6 +18,7 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
     let BODY_MASS_INDEX = "BODY_MASS_INDEX"
     let WAIST_CIRCUMFERENCE = "WAIST_CIRCUMFERENCE"
     let STEPS = "STEPS"
+    let EXERCISE_TIME = "EXERCISE_TIME"
     let BASAL_ENERGY_BURNED = "BASAL_ENERGY_BURNED"
     let ACTIVE_ENERGY_BURNED = "ACTIVE_ENERGY_BURNED"
     let HEART_RATE = "HEART_RATE"
@@ -83,7 +84,6 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
     }
 
     func getData(call: FlutterMethodCall, result: @escaping FlutterResult) {
-        print("HELLO????")
         let arguments = call.arguments as? NSDictionary
         let dataTypeKey = (arguments?["dataTypeKey"] as? String) ?? "DEFAULT"
         let startDate = (arguments?["startDate"] as? NSNumber) ?? 0
@@ -172,6 +172,7 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
             dataTypesDict[BLOOD_GLUCOSE] = HKSampleType.quantityType(forIdentifier: .bloodGlucose)!
             dataTypesDict[ELECTRODERMAL_ACTIVITY] = HKSampleType.quantityType(forIdentifier: .electrodermalActivity)!
             dataTypesDict[WEIGHT] = HKSampleType.quantityType(forIdentifier: .bodyMass)!
+            dataTypesDict[EXERCISE_TIME] = HKSampleType.quantityType(forIdentifier: .appleExerciseTime)!
 
             healthDataTypes = Array(dataTypesDict.values)
         }
