@@ -106,17 +106,11 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
             }
 
             result(samples.filter({ (sample) -> Bool in
-                if #available(iOS 9.0, *) {
-                    let deviceName = sample.device?.name;
-                    if (deviceName == nil) {
-                        return dataTypeKey != self.STEPS
-                    }
+
+                    let deviceName = sample.source.name;
                     
-                    return deviceName != "Apple Watch"
+                    return deviceName.contains("Watch")
                  
-                } else {
-                   return true// Fallback on earlier versions
-                }
             })
             .map { sample -> NSDictionary in
                 let unit = self.unitLookUp(key: dataTypeKey)
@@ -153,6 +147,7 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
         unitDict[BODY_MASS_INDEX] = HKUnit.init(from: "")
         unitDict[WAIST_CIRCUMFERENCE] = HKUnit.meter()
         unitDict[STEPS] = HKUnit.count()
+        unitDict[EXERCISE_TIME] = HKUnit.minute()
         unitDict[BASAL_ENERGY_BURNED] = HKUnit.kilocalorie()
         unitDict[ACTIVE_ENERGY_BURNED] = HKUnit.kilocalorie()
         unitDict[HEART_RATE] = HKUnit.init(from: "count/min")
