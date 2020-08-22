@@ -105,7 +105,20 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
                 return
             }
 
-            result(samples.map { sample -> NSDictionary in
+            result(samples.filter({ (sample) -> Bool in
+                if #available(iOS 9.0, *) {
+                    let deviceName = sample.device?.name;
+                    if (deviceName == nil) {
+                        return dataTypeKey != self.STEPS
+                    }
+                    
+                    return deviceName != "Apple Watch"
+                 
+                } else {
+                   return true// Fallback on earlier versions
+                }
+            })
+            .map { sample -> NSDictionary in
                 let unit = self.unitLookUp(key: dataTypeKey)
 
                 return [
